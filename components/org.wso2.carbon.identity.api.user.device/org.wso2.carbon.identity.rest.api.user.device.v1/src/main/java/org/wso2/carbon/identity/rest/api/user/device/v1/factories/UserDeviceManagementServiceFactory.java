@@ -1,0 +1,51 @@
+/*
+ * Copyright (c) 2026, WSO2 LLC. (http://www.wso2.com).
+ *
+ * WSO2 LLC. licenses this file to you under the Apache License,
+ * Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
+
+package org.wso2.carbon.identity.rest.api.user.device.v1.factories;
+
+import org.wso2.carbon.identity.api.user.device.common.UserDeviceManagementServiceHolder;
+import org.wso2.carbon.identity.device.mgt.api.service.DeviceManagementService;
+import org.wso2.carbon.identity.rest.api.user.device.v1.core.UserDeviceManagementService;
+
+/**
+ * Factory class for UserDeviceManagementService.
+ */
+public class UserDeviceManagementServiceFactory {
+
+    private static final UserDeviceManagementService SERVICE;
+
+    static {
+
+        DeviceManagementService deviceManagementService =
+                UserDeviceManagementServiceHolder.getDeviceManagementService();
+        if (deviceManagementService == null) {
+            throw new IllegalStateException("DeviceManagementService is not available from the OSGi context.");
+        }
+        SERVICE = new UserDeviceManagementService(deviceManagementService);
+    }
+
+    /**
+     * Get UserDeviceManagementService.
+     *
+     * @return UserDeviceManagementService.
+     */
+    public static UserDeviceManagementService getUserDeviceManagementService() {
+
+        return SERVICE;
+    }
+}
